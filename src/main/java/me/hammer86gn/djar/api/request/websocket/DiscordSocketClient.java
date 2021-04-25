@@ -2,6 +2,10 @@ package me.hammer86gn.djar.api.request.websocket;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import me.hammer86gn.djar.api.DJAR;
+import me.hammer86gn.djar.impl.DJARImpl;
+import me.hammer86gn.djar.impl.cache.GuildCache;
+import me.hammer86gn.djar.impl.object.GuildImpl;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -9,14 +13,16 @@ import java.net.URI;
 
 public class DiscordSocketClient extends WebSocketClient {
     private final String token;
+    private final DJAR djar;
 
     private String sessionID;
     private long keepAlive;
     private boolean connectionAlive;
 
-    public DiscordSocketClient(URI serverUri, String token) {
+    public DiscordSocketClient(URI serverUri, String token, DJAR djar) {
         super(serverUri);
         this.token = token;
+        this.djar = djar;
     }
 
     @Override
@@ -31,10 +37,9 @@ public class DiscordSocketClient extends WebSocketClient {
     @Override
     public void onMessage(String message) {
         System.out.println("Received Message: " + message);
-
         getKeepAlive(JsonParser.parseString(message).getAsJsonObject());
-
         heartbeat(JsonParser.parseString(message).getAsJsonObject());
+        cacheGuilds(JsonParser.parseString(message).getAsJsonObject());
 
     }
 
@@ -101,6 +106,12 @@ public class DiscordSocketClient extends WebSocketClient {
                     }
                 }
             },"CONNECTION-HEARTBEAT").start();
+        }
+    }
+
+    private void cacheGuilds(JsonObject message) {
+        if (message.get("t").toString().equals("\"GUILD_CREATE\"")) {
+            GuildCache.getInstance().cacheGuild(new GuildImpl(djar,message.get("d").getAsJsonObject().get("id").getAsLong()));
         }
     }
 
