@@ -39,7 +39,7 @@ public class DiscordSocketClient extends WebSocketClient {
     }
 
     private void getKeepAlive(JsonObject message) {
-        if (message.get("t").toString().equals("null")) {
+        if (message.get("t").toString().equals("null") && keepAlive == 0) {
             keepAlive = message.get("d").getAsJsonObject().get("heartbeat_interval").getAsLong();
         }
     }
@@ -82,25 +82,24 @@ public class DiscordSocketClient extends WebSocketClient {
     }
 
     private void heartbeat(JsonObject message) {
-        if (message.get("t").toString().equals("READY")) {
-            sessionID = message.get("d").getAsJsonObject().get("user").getAsJsonObject().get("session_id").toString();
+        if (message.get("t").toString().equals("\"READY\"")) {
+            sessionID = message.get("d").getAsJsonObject().get("session_id").toString().replace("\"","");
 
             new Thread(() -> {
-
+                while (this.getConnection().isOpen()) {
                     JsonObject heartbeat = new JsonObject();
 
-                    heartbeat.addProperty("op",1);
-                    heartbeat.addProperty("d",System.currentTimeMillis() * System.currentTimeMillis());
-
+                    heartbeat.addProperty("op", 1);
+                    heartbeat.addProperty("d", System.currentTimeMillis() * System.currentTimeMillis());
 
                     this.send(heartbeat.toString());
 
                     try {
-                        Thread.sleep(keepAlive);
+                            Thread.sleep(keepAlive);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                            e.printStackTrace();
                     }
-
+                }
             },"CONNECTION-HEARTBEAT").start();
         }
     }
