@@ -4,10 +4,17 @@ import me.hammer86gn.djar.api.DJAR;
 import me.hammer86gn.djar.api.object.Guild;
 import me.hammer86gn.djar.impl.cache.GuildCache;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class GuildImpl implements Guild {
 
     private final DJAR djar;
     private final long id;
+
+    private String name;
+    private long ownerID;
+    private String iconURL;
 
     public GuildImpl(DJAR djar, long id) {
         this.djar = djar;
@@ -17,6 +24,31 @@ public class GuildImpl implements Guild {
     @Override
     public long getGuildID() {
         return id;
+    }
+
+    @Override
+    public String getGuildName() {
+        return name;
+    }
+
+    @Override
+    public long getGuildOwnerID() {
+        return ownerID;
+    }
+
+    @Override
+    public String getGuildIcon() {
+        return iconURL;
+    }
+
+    @Override
+    public URL getGuildIconURL() {
+        try {
+            return new URL(iconURL);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static Guild getGuildByID(long id) {

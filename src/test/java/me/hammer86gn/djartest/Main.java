@@ -4,6 +4,7 @@ import me.hammer86gn.djar.api.DJAR;
 import me.hammer86gn.djar.api.request.http.HammerHttpClient;
 import me.hammer86gn.djar.api.request.http.RequestHeader;
 import me.hammer86gn.djar.api.request.http.discord.DiscordHttpClient;
+import me.hammer86gn.djar.api.request.rest.RestType;
 import me.hammer86gn.djar.impl.DJARImpl;
 
 import java.io.IOException;
