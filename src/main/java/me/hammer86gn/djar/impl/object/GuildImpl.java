@@ -4,8 +4,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.hammer86gn.djar.api.DJAR;
 import me.hammer86gn.djar.api.object.Guild;
+import me.hammer86gn.djar.api.request.rest.RestRequest;
+import me.hammer86gn.djar.api.request.rest.RestRoute;
 import me.hammer86gn.djar.impl.cache.GuildCache;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -32,7 +35,16 @@ public class GuildImpl implements Guild {
 
     @Override
     public String getGuildName() {
-        return name;
+        RestRequest restRequest = new RestRequest(RestRoute.GUILD.GUILD_INFO.build(Long.toString(id)),getDJAR());
+        restRequest.createRequest();
+        try {
+            JsonObject returned = restRequest.responseToJson(restRequest.request());
+            System.out.println(returned);
+             return returned.get("name").getAsString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -68,4 +80,10 @@ public class GuildImpl implements Guild {
     public DJAR getDJAR() {
         return djar;
     }
+
+
+    public void setName() {
+
+    }
+
 }

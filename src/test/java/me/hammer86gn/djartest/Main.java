@@ -1,23 +1,16 @@
 package me.hammer86gn.djartest;
 
-import com.google.gson.JsonObject;
 import me.hammer86gn.djar.api.DJAR;
-import me.hammer86gn.djar.api.request.rest.RestRequest;
-import me.hammer86gn.djar.api.request.rest.RestRoute;
-import me.hammer86gn.djar.api.request.rest.RestType;
 import me.hammer86gn.djar.impl.DJARImpl;
-
-import java.io.IOException;
-import java.net.ProtocolException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import me.hammer86gn.djar.utils.Util;
 
 
 public class Main {
     private static DJAR djar = new DJARImpl();
 
     public static void main(String[] args) {
+        System.out.println(Util.createBotInvite("801283853200654406",8589934591L));
+
         djar.build(Hidden.TOKEN);
     }
 }
