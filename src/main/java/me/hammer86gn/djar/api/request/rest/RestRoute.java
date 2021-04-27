@@ -19,13 +19,35 @@ public class RestRoute {
         }
     }
 
-    public static void build(RestRoute route, String... parameters) {
-        if (parameters.length != route.paramCount) {
+    public String getRoute() {
+        return route;
+    }
+
+    public RestType getType() {
+        return type;
+    }
+
+    public int getParamCount() {
+        return paramCount;
+    }
+
+    public BuiltRestRoute build(String... parameters) {
+        if (parameters.length != this.paramCount) {
             throw new IllegalArgumentException("Must replace all parameters");
         } else {
-            //TODO: Build stuff
+            StringBuilder sb = new StringBuilder(route);
+            for (int i = 0; i < paramCount; i++) {
+                int start = sb.indexOf("{");
+                int end = sb.indexOf("}");
+                String name = sb.substring(start+1,end);
+
+                sb.replace(start,end+1,parameters[i]);
+
+
+            }
+            return new BuiltRestRoute(this, sb.toString());
         }
-    } //TODO: return the object BuiltRestRoute too lazy to do it now
+    }
 
     public static class GUILD {
 

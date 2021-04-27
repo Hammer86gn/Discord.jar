@@ -1,11 +1,15 @@
 package me.hammer86gn.djar.impl.object;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import me.hammer86gn.djar.api.DJAR;
 import me.hammer86gn.djar.api.object.Guild;
 import me.hammer86gn.djar.impl.cache.GuildCache;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import java.net.URISyntaxException;
 
 public class GuildImpl implements Guild {
 

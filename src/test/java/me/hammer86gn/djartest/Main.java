@@ -1,9 +1,9 @@
 package me.hammer86gn.djartest;
 
+import com.google.gson.JsonObject;
 import me.hammer86gn.djar.api.DJAR;
-import me.hammer86gn.djar.api.request.http.HammerHttpClient;
-import me.hammer86gn.djar.api.request.http.RequestHeader;
-import me.hammer86gn.djar.api.request.http.discord.DiscordHttpClient;
+import me.hammer86gn.djar.api.request.rest.RestRequest;
+import me.hammer86gn.djar.api.request.rest.RestRoute;
 import me.hammer86gn.djar.api.request.rest.RestType;
 import me.hammer86gn.djar.impl.DJARImpl;
 

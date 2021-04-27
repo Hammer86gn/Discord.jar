@@ -3,6 +3,7 @@ package me.hammer86gn.djar.api.request.websocket;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.hammer86gn.djar.api.DJAR;
+import me.hammer86gn.djar.api.object.Guild;
 import me.hammer86gn.djar.impl.DJARImpl;
 import me.hammer86gn.djar.impl.cache.GuildCache;
 import me.hammer86gn.djar.impl.object.GuildImpl;
