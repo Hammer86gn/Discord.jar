@@ -19,9 +19,6 @@ public class GuildImpl implements Guild {
     private final DJAR djar;
     private final long id;
 
-    private String name;
-    private long ownerID;
-    private String iconURL;
 
     public GuildImpl(DJAR djar, long id) {
         this.djar = djar;
@@ -34,13 +31,17 @@ public class GuildImpl implements Guild {
     }
 
     @Override
+    public String getGuildIDAsString() {
+        return Long.toString(id);
+    }
+
+    @Override
     public String getGuildName() {
         RestRequest restRequest = new RestRequest(RestRoute.GUILD.GUILD_INFO.build(Long.toString(id)),getDJAR());
         restRequest.createRequest();
         try {
             JsonObject returned = restRequest.responseToJson(restRequest.request());
-            System.out.println(returned);
-             return returned.get("name").getAsString();
+            return returned.get("name").getAsString();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,22 +50,67 @@ public class GuildImpl implements Guild {
 
     @Override
     public long getGuildOwnerID() {
-        return ownerID;
+        RestRequest restRequest = new RestRequest(RestRoute.GUILD.GUILD_INFO.build(Long.toString(id)),getDJAR());
+        restRequest.createRequest();
+        try {
+            JsonObject returned = restRequest.responseToJson(restRequest.request());
+            return returned.get("owner_id").getAsLong();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override
     public String getGuildIcon() {
-        return iconURL;
+        RestRequest restRequest = new RestRequest(RestRoute.GUILD.GUILD_INFO.build(Long.toString(id)),getDJAR());
+        restRequest.createRequest();
+        try {
+            JsonObject returned = restRequest.responseToJson(restRequest.request());
+            return returned.get("icon").toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public URL getGuildIconURL() {
+        RestRequest restRequest = new RestRequest(RestRoute.GUILD.GUILD_INFO.build(Long.toString(id)),getDJAR());
+        restRequest.createRequest();
         try {
-            return new URL(iconURL);
-        } catch (MalformedURLException e) {
+            JsonObject returned = restRequest.responseToJson(restRequest.request());
+            return new URL(returned.get("icon").getAsString());
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public String getGuildRegion() {
+        RestRequest restRequest = new RestRequest(RestRoute.GUILD.GUILD_INFO.build(Long.toString(id)),getDJAR());
+        restRequest.createRequest();
+        try {
+            JsonObject returned = restRequest.responseToJson(restRequest.request());
+            return returned.get("region").toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void changeGuildName(String name) {
+        RestRequest restRequest = new RestRequest(RestRoute.GUILD.GUILD_MODIFY.build(Long.toString(id)),getDJAR());
+        JsonObject requestJson = new JsonObject();
+        requestJson.addProperty("name",name);
+        restRequest.createRequestWithBody(requestJson.toString());
+        try {
+            System.out.println(restRequest.responseToJson(restRequest.request()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Guild getGuildByID(long id) {
@@ -79,11 +125,6 @@ public class GuildImpl implements Guild {
     @Override
     public DJAR getDJAR() {
         return djar;
-    }
-
-
-    public void setName() {
-
     }
 
 }

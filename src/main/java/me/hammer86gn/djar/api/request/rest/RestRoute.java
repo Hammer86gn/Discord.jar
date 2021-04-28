@@ -71,6 +71,13 @@ public class RestRoute {
         public static final RestRoute GUILD_VANITY_URL = new RestRoute(RestType.GET,"guilds/{guild_id}/vanity-url");
         public static final RestRoute GUILD_WIDGET_IMG = new RestRoute(RestType.GET,"guilds/{guild_id}/widget.png");
         public static final RestRoute GUILD_WELCOME_SCREEN = new RestRoute(RestType.GET,"guilds/{guild_id}/welcome-screen");
+
+
+        /*
+        All The PATCH Requests
+         */
+
+        public static final RestRoute GUILD_MODIFY = new RestRoute(RestType.PATCH,"guilds/{guild_id}");
     }
 
 }

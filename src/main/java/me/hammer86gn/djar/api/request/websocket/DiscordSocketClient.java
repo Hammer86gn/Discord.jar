@@ -113,6 +113,10 @@ public class DiscordSocketClient extends WebSocketClient {
     private void cacheGuilds(JsonObject message) {
         if (message.get("t").toString().equals("\"GUILD_CREATE\"")) {
             GuildCache.getInstance().cacheGuild(new GuildImpl(djar,message.get("d").getAsJsonObject().get("id").getAsLong()));
+            Guild guild = GuildImpl.getGuildByID(801449455496331264L);
+            guild.changeGuildName("test");
+           // System.out.println("Guild Info: id=" + guild.getGuildID() + " name=" + guild.getGuildName() + " icon=" + guild.getGuildIcon() + " owner_id=" + guild.getGuildOwnerID());
+
         }
     }
 

@@ -16,11 +16,12 @@ public class RestRequest implements IDJAR {
     private final DJAR djar;
     private OkHttpClient client;
     private Request request;
+    private RequestBody body;
 
     public RestRequest(BuiltRestRoute route, DJAR djar) {
         this.route = route;
         this.djar = djar;
-        this.client = djar.getOkHTTP();
+        this.client = new OkHttpClient();
     }
 
     public void createRequest(@Nullable String[] keys, @Nullable String[] values) {
@@ -36,8 +37,23 @@ public class RestRequest implements IDJAR {
         this.request = request.build();
     }
 
+    public void createRequest(String keys,String values) {
+        Builder request = new Request.Builder().url(route.getBuiltRoute()).addHeader("Authorization","Bot " + djar.getToken());
+        request.addHeader(keys, values);
+        this.request = request.build();
+    }
+
     public void createRequest() {
         Builder request = new Request.Builder().url(route.getBuiltRoute()).addHeader("Authorization","Bot " + djar.getToken());
+        this.request = request.build();
+    }
+
+    public void createRequestWithBody(String json) {
+        RequestBody body = RequestBody.create(json,DJAR.JSON);
+        Builder request = new Request.Builder().url(route.getBuiltRoute()).addHeader("Authorization","Bot " + djar.getToken()).
+                addHeader("Content-Type","application/json").post(body);
+
+        this.body = body;
         this.request = request.build();
     }
 
