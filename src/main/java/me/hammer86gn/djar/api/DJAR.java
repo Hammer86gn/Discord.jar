@@ -5,7 +5,7 @@ import okhttp3.OkHttpClient;
 
 public interface DJAR {
 
-    static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    static final MediaType JSON = MediaType.parse("application/json");
 
     void build(String token);
 

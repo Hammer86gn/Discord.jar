@@ -50,11 +50,24 @@ public class RestRequest implements IDJAR {
 
     public void createRequestWithBody(String json) {
         RequestBody body = RequestBody.create(json,DJAR.JSON);
-        Builder request = new Request.Builder().url(route.getBuiltRoute()).addHeader("Authorization","Bot " + djar.getToken()).
-                addHeader("Content-Type","application/json").post(body);
+        Builder request = new Request.Builder().url(route.getBuiltRoute()).addHeader("Authorization","Bot " + djar.getToken());
+        switch (route.getRoute().getType()) {
+            case POST:
+                request.post(body);
+                break;
+            case PATCH:
+                request.patch(body);
+            case PUT:
+                request.put(body);
+            case DELETE:
+                request.delete(body);
+
+        }
+
 
         this.body = body;
         this.request = request.build();
+        System.out.println(json);
     }
 
     public Response request() {

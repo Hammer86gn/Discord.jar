@@ -19,7 +19,7 @@ public interface Guild {
     long getGuildID();
 
     /**
-     * Does the same as {@link Guild#getGuildID} on converts to a string
+     * Does the same as {@link Guild#getGuildID} but converts to a string
      *
      * @return {@link String}
      */

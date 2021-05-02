@@ -7,6 +7,7 @@ import me.hammer86gn.djar.api.object.Guild;
 import me.hammer86gn.djar.api.request.rest.RestRequest;
 import me.hammer86gn.djar.api.request.rest.RestRoute;
 import me.hammer86gn.djar.impl.cache.GuildCache;
+import okhttp3.Response;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -107,12 +108,21 @@ public class GuildImpl implements Guild {
         requestJson.addProperty("name",name);
         restRequest.createRequestWithBody(requestJson.toString());
         try {
-            System.out.println(restRequest.responseToJson(restRequest.request()));
+            Response res = restRequest.request();
+            JsonObject responseObject = restRequest.responseToJson(res);
+            System.out.println(responseObject);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+
+    /**
+     * Gets a {@link Guild} from a given id
+     *
+     * @param id The id of the <b>Guild</b> you want to get <i>The guild must be cached</i>
+     * @return {@link Guild}
+     */
     public static Guild getGuildByID(long id) {
         for (Guild guild : GuildCache.getInstance().getAll()) {
             if (guild.getGuildID() == id) {
