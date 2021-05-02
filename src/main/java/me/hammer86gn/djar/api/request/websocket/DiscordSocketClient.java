@@ -20,6 +20,11 @@ public class DiscordSocketClient extends WebSocketClient {
     private long keepAlive;
     private boolean connectionAlive;
 
+    /* Test Vars
+     */
+
+    int e;
+
     public DiscordSocketClient(URI serverUri, String token, DJAR djar) {
         super(serverUri);
         this.token = token;
@@ -29,7 +34,7 @@ public class DiscordSocketClient extends WebSocketClient {
     @Override
     public void onOpen(ServerHandshake handshakedata) {
         identify();
-
+        e = 0;
 
 
         connectionAlive = true;
@@ -114,7 +119,10 @@ public class DiscordSocketClient extends WebSocketClient {
         if (message.get("t").toString().equals("\"GUILD_CREATE\"")) {
             GuildCache.getInstance().cacheGuild(new GuildImpl(djar,message.get("d").getAsJsonObject().get("id").getAsLong()));
             Guild guild = GuildImpl.getGuildByID(801449455496331264L);
-            guild.changeGuildName("test");
+            if (e == 0) {
+                e++;
+                guild.changeGuildName("two");
+            }
            // System.out.println("Guild Info: id=" + guild.getGuildID() + " name=" + guild.getGuildName() + " icon=" + guild.getGuildIcon() + " owner_id=" + guild.getGuildOwnerID());
 
         }

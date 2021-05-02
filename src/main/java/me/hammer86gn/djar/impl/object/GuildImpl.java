@@ -103,6 +103,10 @@ public class GuildImpl implements Guild {
 
     @Override
     public void changeGuildName(String name) {
+
+        if (name.length() > 100 || name.length() < 2)
+            throw new IllegalArgumentException("Guild Names must be between 2 and 100 characters");
+
         RestRequest restRequest = new RestRequest(RestRoute.GUILD.GUILD_MODIFY.build(Long.toString(id)),getDJAR());
         JsonObject requestJson = new JsonObject();
         requestJson.addProperty("name",name);

@@ -57,11 +57,14 @@ public class RestRequest implements IDJAR {
                 break;
             case PATCH:
                 request.patch(body);
+                System.out.println("Hi");
+                break;
             case PUT:
                 request.put(body);
+                break;
             case DELETE:
                 request.delete(body);
-
+                break;
         }
 
 
