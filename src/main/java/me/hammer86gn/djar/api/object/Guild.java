@@ -1,6 +1,9 @@
 package me.hammer86gn.djar.api.object;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import me.hammer86gn.djar.api.DJAR;
+import me.hammer86gn.djar.utils.Util;
 
 import java.net.URL;
 
@@ -67,6 +70,8 @@ public interface Guild {
      * @param name {@link String} what to change the <b>Guild</b> name to
      */
     void changeGuildName(String name);
+
+    JsonObject getGuildAuditLog(Util.AuditLogTypes type);
 
     DJAR getDJAR();
 

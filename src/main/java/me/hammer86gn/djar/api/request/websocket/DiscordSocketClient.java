@@ -7,6 +7,7 @@ import me.hammer86gn.djar.api.object.Guild;
 import me.hammer86gn.djar.impl.DJARImpl;
 import me.hammer86gn.djar.impl.cache.GuildCache;
 import me.hammer86gn.djar.impl.object.GuildImpl;
+import me.hammer86gn.djar.utils.Util;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -121,7 +122,7 @@ public class DiscordSocketClient extends WebSocketClient {
             Guild guild = GuildImpl.getGuildByID(801449455496331264L);
             if (e == 0) {
                 e++;
-                guild.changeGuildName("two");
+                guild.getGuildAuditLog(Util.AuditLogTypes.GUILD_UPDATE);
             }
            // System.out.println("Guild Info: id=" + guild.getGuildID() + " name=" + guild.getGuildName() + " icon=" + guild.getGuildIcon() + " owner_id=" + guild.getGuildOwnerID());
 

@@ -7,6 +7,7 @@ import me.hammer86gn.djar.api.object.Guild;
 import me.hammer86gn.djar.api.request.rest.RestRequest;
 import me.hammer86gn.djar.api.request.rest.RestRoute;
 import me.hammer86gn.djar.impl.cache.GuildCache;
+import me.hammer86gn.djar.utils.Util;
 import okhttp3.Response;
 
 import java.io.IOException;
@@ -81,7 +82,8 @@ public class GuildImpl implements Guild {
         restRequest.createRequest();
         try {
             JsonObject returned = restRequest.responseToJson(restRequest.request());
-            return new URL(returned.get("icon").getAsString());
+            String url = "https://cdn.discordapp.com/icon/" + getGuildID() + returned.get("icon").getAsString();
+            return new URL(url);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,7 +108,6 @@ public class GuildImpl implements Guild {
 
         if (name.length() > 100 || name.length() < 2)
             throw new IllegalArgumentException("Guild Names must be between 2 and 100 characters");
-
         RestRequest restRequest = new RestRequest(RestRoute.GUILD.GUILD_MODIFY.build(Long.toString(id)),getDJAR());
         JsonObject requestJson = new JsonObject();
         requestJson.addProperty("name",name);
@@ -135,6 +136,21 @@ public class GuildImpl implements Guild {
         }
         return null;
     }
+
+    @Override
+    public JsonObject getGuildAuditLog(Util.AuditLogTypes type) {
+        RestRequest restRequest = new RestRequest(RestRoute.GUILD.GUILD_AUDIT_LOG.build(getGuildIDAsString()),djar);
+        restRequest.createRequest("action_type",Integer.toString(type.getId()));
+        Response res = restRequest.request();
+        try {
+            return restRequest.responseToJson(res);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
     @Override
     public DJAR getDJAR() {
